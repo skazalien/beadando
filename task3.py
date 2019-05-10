@@ -21,16 +21,16 @@ def encrypt(message): #msg to morse
         if i != ' ':
             inmorse += MORSE_CODE_DICT[i] + ' '
         else:
-            inmorse += ' '
+            inmorse += '\t'
 
     return inmorse
 
 def decrypt(message): #morse to msg
-    message += ' '
+    # message += ' '
 
     regular = ''
     citext = ''
-    for j in message: # j = letter
+    for j in message.replace('\t', ' '): # j = letter
         if (j != ' '):
             space_in_between = 0
             citext += j
@@ -56,5 +56,3 @@ for i in message.upper():
         print("Original Message in Regular:", result_in_regular)
         print("Original Message: ", message)
         break
-
-
