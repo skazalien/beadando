@@ -31,7 +31,7 @@ def decrypt(message): #morse to msg
     regular = ''
     citext = ''
     for j in message.replace('\t', ' '): # j = letter
-        if (j != ' '):
+        if j != ' ':
             space_in_between = 0
             citext += j
         else:
@@ -53,6 +53,9 @@ for i in message.upper():
         break
     else:
         result_in_regular = decrypt(message)
+        result_in_regular=result_in_regular.lower().capitalize()
         print("Original Message in Regular:", result_in_regular)
         print("Original Message: ", message)
         break
+
+
