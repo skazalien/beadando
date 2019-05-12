@@ -29,18 +29,18 @@ def decrypt(message): #morse to msg
     # message += ' '
 
     regular = ''
-    citext = ''
+    tarol = ''
     for j in message.replace('\t', ' '): # j = letter
         if j != ' ':
             space_in_between = 0
-            citext += j
+            tarol += j                 #morse kód tárolása egy betűvel
         else:
             space_in_between += 1
             if space_in_between == 2:
                 regular += ' '
-            else:
-                regular += list(MORSE_CODE_DICT.keys())[list(MORSE_CODE_DICT.values()).index(citext)]
-                citext = ''
+            else:                       # a kulcsok elérése a value-k segítségével
+                regular += list(MORSE_CODE_DICT.keys())[list(MORSE_CODE_DICT.values()).index(tarol)]
+                tarol = ''
 
     return regular
 
@@ -57,3 +57,4 @@ for i in message.upper():
         print("Original Message in Regular:", result_in_regular)
         print("Original Message: ", message)
         break
+
