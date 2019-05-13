@@ -14,7 +14,6 @@ MORSE_CODE_DICT = {'A': '.-', 'B': '-...',
                        '?': '..--..', '/': '-..-.', '-': '-....-',
                        '(': '-.--.', ')': '-.--.-'}
 
-
 def encrypt(message): #msg to morse
     inmorse = ''
     for i in message:
@@ -44,12 +43,14 @@ def decrypt(message): #morse to msg
     return regular
 
 message = input("Message: ") # <>={} []
-if message[0].upper() in MORSE_CODE_DICT.keys():
+list_keys = list(MORSE_CODE_DICT.keys())
+
+if message[0].upper() in list_keys and message[0] != "." and message[0] !="-":
     result_in_morse = encrypt(message.upper())
     print("Original Message in Morse:", result_in_morse)
-    print("Original Message: ", message)
+    print("Original Message:", message)
 else:
     result_in_regular = decrypt(message)
     result_in_regular=result_in_regular.capitalize()
     print("Original Message in Regular:", result_in_regular)
-    print("Original Message: ", message)
+    print("Original Message:", message)
