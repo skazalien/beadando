@@ -26,8 +26,7 @@ def encrypt(message): #msg to morse
     return inmorse
 
 def decrypt(message): #morse to msg
-    # message += ' '
-
+    message += ' '      #ha nem lenne a végén egy ' ', akkor hozzátesz, amúgy kihagyná az utolsó betűt
     regular = ''
     tarol = ''
     for j in message.replace('\t', ' '): # j = letter
@@ -45,16 +44,12 @@ def decrypt(message): #morse to msg
     return regular
 
 message = input("Message: ") # <>={} []
-for i in message.upper():
-    if ("a" <= i <= "z") is True or ("A" <= i <= "Z") is True:
-        result_in_morse = encrypt(message.upper())
-        print("Original Message in Morse:", result_in_morse)
-        print("Original Message: ", message)
-        break
-    else:
-        result_in_regular = decrypt(message)
-        result_in_regular=result_in_regular.capitalize()
-        print("Original Message in Regular:", result_in_regular)
-        print("Original Message: ", message)
-        break
-
+if message[0].upper() in MORSE_CODE_DICT.keys():
+    result_in_morse = encrypt(message.upper())
+    print("Original Message in Morse:", result_in_morse)
+    print("Original Message: ", message)
+else:
+    result_in_regular = decrypt(message)
+    result_in_regular=result_in_regular.capitalize()
+    print("Original Message in Regular:", result_in_regular)
+    print("Original Message: ", message)
