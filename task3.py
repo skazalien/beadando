@@ -42,10 +42,10 @@ def decrypt(message): #morse to msg
 
     return regular
 
-message = input("Message: ") # <>={} []
-list_keys = list(MORSE_CODE_DICT.keys())
+message = input("Message: ").strip() # < > = {} []
+dotordash = [".","-"]
 
-if message[0].upper() in list_keys and message[0] != "." and message[0] !="-":
+if message[0].upper() in list(MORSE_CODE_DICT.keys()) and message[0] not in dotordash:
     result_in_morse = encrypt(message.upper())
     print("Original Message in Morse:", result_in_morse)
     print("Original Message:", message)
