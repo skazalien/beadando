@@ -1,6 +1,3 @@
-ls1 = []
-# n1 = 10
-# n2 = 10
 n1 = int(input("n1: "))
 n2 = int(input("n2: "))
 
