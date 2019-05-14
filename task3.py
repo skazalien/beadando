@@ -16,6 +16,7 @@ MORSE_CODE_DICT = {'A': '.-', 'B': '-...',
                    '?': '..--..', '/': '-..-.', '-': '-....-',
                    '(': '-.--.', ')': '-.--.-'}
 
+
 def encrypt(message): #msg to morse
     inmorse = ''
     for i in message:
@@ -25,6 +26,7 @@ def encrypt(message): #msg to morse
             inmorse += '\t'
 
     return inmorse
+
 
 def decrypt(message): #morse to msg
     message += ' '      #ha nem lenne a végén egy ' ', akkor hozzátesz, amúgy kihagyná az utolsó betűt
@@ -45,8 +47,6 @@ def decrypt(message): #morse to msg
     return regular
 
 message = input("Message: ").strip() # < > = {} []
-dotordash = [".","-"]
-
 val_list = list(MORSE_CODE_DICT.values())
 
 for i in range(0,len(message)):
@@ -59,11 +59,12 @@ for i in range(0,len(message)):
     else:
         ismorse = 0
 
+
 if ismorse == 0:
     result_in_morse = encrypt(message.upper())
     print("Original Message in Morse:", result_in_morse)
     print("Original Message:", message)
-elif ismorse == 1:
+else:
     result_in_regular = decrypt(message)
     result_in_regular=result_in_regular.capitalize()
     print("Original Message in Regular:", result_in_regular)
