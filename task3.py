@@ -51,14 +51,13 @@ val_list = list(MORSE_CODE_DICT.values())
 
 for i in range(0,len(message)):
     ismorse = 0
-    if message[i] in val_list and ismorse == 0:
-        if ('-' in message[0] or '.' in message[0]) and string.ascii_letters in message is True:
+    if ('-' in message or '.' in message) and string.ascii_letters in message is True:
+        if message[i] in val_list and ismorse == 0:
             ismorse = 0
         else:
             ismorse = 1
     else:
         ismorse = 0
-
 
 if ismorse == 0:
     result_in_morse = encrypt(message.upper())
