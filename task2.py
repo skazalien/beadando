@@ -1,25 +1,28 @@
-n1 = int(input("n1: "))
-n2 = int(input("n2: "))
+import matplotlib.pyplot as plt
 
-ls1 = []
-for i in range(n1):
-    ls2 = []
-    for j in range(n2):
-        ls2.append(0)
-    ls1.append(ls2)
+try:
+    n1 = int(input("n1 = "))
+    n2 = int(input("n2 = "))
+    def pascal_triangle(n1,n2):
+        ls=[]
+        for i in range(n1):
+            if n1 < n2:
+                print('The given n2 is either greater or equal to n1.')
+                return
+            ls.append([])
+            ls[i].append(1)
+            for j in range(1,i):
+                ls[i].append(ls[i-1][j-1]+ls[i-1][j])
+            if(n1!=0):
+                ls[i].append(1)
+        for i in range(n1):
+            print("   "*(n1-i),end=" ",sep=" ")
+            for j in range(0,i+1):
+                print('{0:6}'.format(ls[i][j]),end=" ",sep=" ")
+            print()
+        plt.plot(ls[n2-1], 'go')
 
-for i in range(n1):
-    ls2 = []
-    for j in range(0, min(i, n2)):
-        if j == 0 or j == i:
-            ls1[i][j] = 1
-        else:
-            ls1[i][j] = ls1[i - 1][j - 1] + ls1[i - 1][j]
-
-for k in ls1:
-    print(' ' * 2 * n1, end='')
-    n1 -= 1
-    for l in k:
-        if l > 0:
-            print('{:>4}'.format(l), end='')
-    print()
+        plt.show()
+    pascal_triangle(n1,n2)
+except ValueError:
+    print("The given input is not an integer.")
