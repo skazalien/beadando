@@ -1,5 +1,3 @@
-import string
-
 MORSE_CODE_DICT = {'A': '.-', 'B': '-...',
                    'C': '-.-.', 'D': '-..', 'E': '.',
                    'F': '..-.', 'G': '--.', 'H': '....',
@@ -17,7 +15,7 @@ MORSE_CODE_DICT = {'A': '.-', 'B': '-...',
                    '(': '-.--.', ')': '-.--.-'}
 
 
-def encrypt(message): #msg to morse
+def encrypt(message):  # msg to morse
     inmorse = ''
     for i in message:
         if i != ' ':
@@ -28,43 +26,36 @@ def encrypt(message): #msg to morse
     return inmorse
 
 
-def decrypt(message): #morse to msg
-    message += ' '      #ha nem lenne a végén egy ' ', akkor hozzátesz, amúgy kihagyná az utolsó betűt
+def decrypt(message):  # morse to msg
+    message += ' '  # ha nem lenne a végén egy ' ', akkor hozzátesz, amúgy kihagyná az utolsó betűt
     regular = ''
     tarol = ''
-    for j in message.replace('\t', ' '): # j = letter
+    for j in message.replace('\t', ' '):  # j = letter
         if j != ' ':
             space_in_between = 0
-            tarol += j                 #morse kód tárolása egy betűvel
+            tarol += j  # morse kód tárolása egy betűvel
         else:
             space_in_between += 1
             if space_in_between == 2:
                 regular += ' '
-            else:                       # a kulcsok elérése a value-k segítségével
+            else:  # a kulcsok elérése a value-k segítségével
                 regular += list(MORSE_CODE_DICT.keys())[list(MORSE_CODE_DICT.values()).index(tarol)]
                 tarol = ''
 
     return regular
 
-message = input("Message: ").strip() # < > = {} []
-val_list = list(MORSE_CODE_DICT.values())
+try:
+    message = input("Message: ").strip()  # <>={} []
+    list_keys = list(MORSE_CODE_DICT.keys())
 
-for i in range(0,len(message)):
-    ismorse = 0
-    if ('-' in message or '.' in message) and string.ascii_letters in message is True:
-        if message[i] in val_list and ismorse == 0:
-            ismorse = 0
-        else:
-            ismorse = 1
+    if message[0].upper() in list_keys and message[0] != "." and message[0] != "-":
+        result_in_morse = encrypt(message.upper())
+        print("Original Message in Morse:", result_in_morse)
+        print("Original Message:", message)
     else:
-        ismorse = 0
-
-if ismorse == 0:
-    result_in_morse = encrypt(message.upper())
-    print("Original Message in Morse:", result_in_morse)
-    print("Original Message:", message)
-else:
-    result_in_regular = decrypt(message)
-    result_in_regular=result_in_regular.capitalize()
-    print("Original Message in Regular:", result_in_regular)
-    print("Original Message:", message)
+        result_in_regular = decrypt(message)
+        result_in_regular = result_in_regular.capitalize()
+        print("Original Message in Regular:", result_in_regular)
+        print("Original Message:", message)
+except ValueError:
+    print("The sentence has to be a valid english sentence.")
