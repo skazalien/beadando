@@ -2,8 +2,8 @@ import numpy as np
 
 
 
-board= np.array([['WR','WK','WB','WKing','WQ','WB','WK','WR'],
-                 ['','WP','WP','WP','WP','WP','WP','WP'],
+board = np.array([['WR','WK','WB','WKing','WQ','WB','WK','WR'],
+                 ['WP','WP','WP','WP','WP','WP','WP','WP'],
                  ['','','','','','','',''],
                  ['','','','','','','',''],
                  ['','','','','','','',''],
@@ -11,7 +11,10 @@ board= np.array([['WR','WK','WB','WKing','WQ','WB','WK','WR'],
                  ['BP','BP','BP','BP','BP','BP','BP','BP'],
                  ['BR','BK','BB','BKing','BQ','BB','BK','BR']])
 
+
 board_shape=board.shape
+
+
 
 def getname(i ,j):
     return board[i][j]

@@ -15,6 +15,7 @@ import TimerUtil
 import datetime
 import threading
 import ctypes
+import copy
 
 class Setting:
     def __init__(self):
@@ -25,30 +26,13 @@ class Setting:
         self.h = 0
         self.time = "1"
         self.ui.timebox.currentTextChanged.connect(self.getTime)
+        self.ui.playbutton.clicked.connect(self.openChessWindow)
 
         # self.pic={'00':'WR', '01':'WK', '02':'WB', '03':'WKing', '04':'WQ', '05':'WB' , '06':'WK' , '07':'WR' , '10':'WP' , '11':'WP' , '12':'WP' , '13':'WP' , '14': 'WP', '15': 'WP', '16':'WP' , '17':'WP' , '20':'', '21': '', '22': '', '23': '', '24': '', '25': '', '26': '', '27': '',
         # '30': '', '31': '', '32': '', '33': '', '34': '', '35': '', '36': '', '37': '', '40': '', '41': '', '42': '', '43': '', '44': '', '45': '', '46': '', '47': '', '50': '', '51': '', '52': '', '53':'', '54':'' , '55': '', '56': '', '57': '', '60': '', '61': '', '62': '', '63': '', '64': '', '65': '', '66': '', '67': '', '70': '', '71': '', '72': '', '73': '', '74': '', '75':'' , '76': '', '77': ''}
-        self.pic = {'WR': 'WR.png', 'WK': 'WK.png', 'WKing': 'WKing.png', 'WB': 'WB.png', 'WP': 'WP.png',
-                    'WQ': 'WQ.png',
-                    'BR': 'BR.png', 'BK': 'BK.png', 'BKing': 'BKing.png', 'BB': 'BB.png', 'BP': 'BP1.png',
-                    'BQ': 'BQ.png'}
 
-        self.zold = False
-        self.prevLab = None
-        self.prevLs = []
-        self.prevN = ''
-        self.colors = {}
-        self.turn = 'W'
-        self.outofPlay = []
-        self.selected = 'P'
-        self.matt = ''
-        self.sakkmatt = ''
-        self.mattLs = []
-        self.inverse = {'W': 'B', 'B': 'W'}
-        self.allW=[]
-        self.allB=[]
 
-        self.ui.playbutton.clicked.connect(self.openChessWindow)
+
         self.MainWindow.show()
 
 
@@ -79,6 +63,72 @@ class Setting:
         return result
 
     def openChessWindow(self):
+        self.h = 0
+
+        self.pic = {'WR': 'WR.png', 'WK': 'WK.png', 'WKing': 'WKing.png', 'WB': 'WB.png', 'WP': 'WP.png',
+                    'WQ': 'WQ.png',
+                    'BR': 'BR.png', 'BK': 'BK.png', 'BKing': 'BKing.png', 'BB': 'BB.png', 'BP': 'BP1.png',
+                    'BQ': 'BQ.png'}
+
+        self.zold = False
+        self.prevLab = None
+        self.prevLs = []
+        self.prevN = ''
+        self.colors = {}
+        self.turn = 'W'
+        self.outofPlay = []
+        self.selected = 'P'
+        self.matt = ''
+        self.sakkmatt = ''
+        self.mattLs = []
+        self.inverse = {'W': 'B', 'B': 'W'}
+        self.allW = []
+        self.allB = []
+
+
+        for i in range(8):
+            for j in range(8):
+                board[i][j] = ''
+
+        board[0][0] = 'WR'
+        board[0][1] = 'WK'
+        board[0][2] = 'WB'
+        board[0][3] = 'WKing'
+        board[0][4] = 'WQ'
+        board[0][5] = 'WB'
+        board[0][6] = 'WK'
+        board[0][7] = 'WR'
+
+        board[1][0] = 'WP'
+        board[1][1] = 'WP'
+        board[1][2] = 'WP'
+        board[1][3] = 'WP'
+        board[1][4] = 'WP'
+        board[1][5] = 'WP'
+        board[1][6] = 'WP'
+        board[1][7] = 'WP'
+
+        board[6][0] = 'BP'
+        board[6][1] = 'BP'
+        board[6][2] = 'BP'
+        board[6][3] = 'BP'
+        board[6][4] = 'BP'
+        board[6][5] = 'BP'
+        board[6][6] = 'BP'
+        board[6][7] = 'BP'
+
+        board[7][0] = 'BR'
+        board[7][1] = 'BK'
+        board[7][2] = 'BB'
+        board[7][3] = 'BKing'
+        board[7][4] = 'BQ'
+        board[7][5] = 'BB'
+        board[7][6] = 'BK'
+        board[7][7] = 'BR'
+
+
+
+
         self.newWindow=QtWidgets.QMainWindow()
         self.ui2=Ui_Gameview()
         self.ui2.setupUi(self.newWindow)
@@ -174,6 +224,9 @@ class Setting:
         self.play_timer.switch_to('B')
         self.play_timer.switch_to(self.turn)
 ###############################################################
+
+
+
         self.newWindow.show()
 
         threading._start_new_thread(self.timer, ())
@@ -193,6 +246,7 @@ class Setting:
                 resp = ctypes.windll.user32.MessageBoxW(0, self.ui.player2.text() + " has won!", "GAME OVER", 1)
                 if resp:
                     self.newWindow.close()
+                    # self.MainWindow.close()
 
 
 
@@ -202,6 +256,7 @@ class Setting:
                 resp = ctypes.windll.user32.MessageBoxW(0, self.ui.player1.text() + " has won!", "GAME OVER", 1)
                 if resp:
                     self.newWindow.close()
+                    # self.MainWindow.close()
 
 
             time.sleep(0.1)
@@ -216,134 +271,137 @@ class Setting:
         ls= []
         ls0=canMove(x,y)
         k=King(self.inverse[self.turn]+'King')
+        print(self.searchall())
 
         print("TESZT: ", self.play_timer.all_elapsed_time(reset=False))
         self.ui2.whiteTimer.setText(self.getFormattedTime(self.play_timer.all_elapsed_time(reset=False)['W']))
         self.ui2.blackTimer.setText(self.getFormattedTime(self.play_timer.all_elapsed_time(reset=False)['B']))
 
 
-
-
-
-        if getname(x,y)!='' and len(ls0)>0 and k.getPosition() in ls0:
+        if getname(x, y) != '' and len(ls0) > 0 and k.getPosition() in ls0:
             ls0.remove(k.getPosition())
 
+        if self.matt != self.turn:
+            ls = ls0
 
-        if self.matt!=self.turn:
-            ls=ls0
+        if self.matt == self.turn and ls0 != [] and getname(x, y) != '':
+            if getname(x, y)[1:] == 'King':
+                if getname(x, y)[0] == 'W':
+                    for i in ls0:
+                        if i not in self.allB:
+                            ls.append(i)
+
+                elif getname(x, y)[0] == 'B':
+                    for i in ls0:
+                        if i not in self.allW:
+                            ls.append(i)
 
 
-        if self.matt==self.turn and ls0!=[] and getname(x,y)!='':
-            if getname(x,y)[1:]=='King':
-                ls=ls0
+
             else:
                 for i in ls0:
                     if i in self.mattLs:
                         ls.append(i)
 
-
-
-
-        if self.zold==False:
-            if getname(x, y)!='' and getname(x,y)[0]==self.turn:
-                if ls0 != []:
-                    self.zold=True
+        if self.zold == False:
+            if getname(x, y) != '' and getname(x, y)[0] == self.turn:
+                if ls != []:
+                    self.zold = True
                     for i in range(len(ls)):
-                        which=self.poz[ls[i]]
-                        self.colors[ls[i]]=which.palette().button().color()
-                        #self.colors.append(which.palette().button().color())
-                        which.setStyleSheet('background-color:'+which.palette().button().color().name()+';'+'border: 7px inset green;')
+                        which = self.poz[ls[i]]
+                        self.colors[ls[i]] = which.palette().button().color()
+                        # self.colors.append(which.palette().button().color())
+                        which.setStyleSheet(
+                            'background-color:' + which.palette().button().color().name() + ';' + 'border: 7px inset green;')
 
-                    self.prevLab=label
-                    self.prevLs=ls
-                    self.prevName=getname(x,y)
-                    self.prevN=n
+                    self.prevLab = label
+                    self.prevLs = ls
+                    self.prevName = getname(x, y)
+                    self.prevN = n
 
         elif self.zold and n in self.prevLs:
 
-            if self.prevN!='':
-                i=int(self.prevN[0])
-                j=int(self.prevN[1])
+            if self.prevN != '':
+                i = int(self.prevN[0])
+                j = int(self.prevN[1])
                 label.setPixmap(QtGui.QPixmap(self.pic[self.prevName]))
                 self.prevLab.clear()
 
-                if getname(x,y)!='' and getname(x, y)[1]!='P':
-                    self.outofPlay.append(getname(x,y))
+                if getname(x, y) != '' and getname(x, y)[1] != 'P':
+                    self.outofPlay.append(getname(x, y))
 
-                board[i][j]=''
-                board[x][y]=self.prevName
+                board[i][j] = ''
+                board[x][y] = self.prevName
                 print(self.searchall())
-                print(self.searchChain(x,y))
+                print(self.searchChain(x, y))
 
                 for i in range(len(self.prevLs)):
-                    which=self.poz[self.prevLs[i]]
-                    which.setStyleSheet('background-color:'+self.colors[self.prevLs[i]].name()+';')
-                    #which.setStyleSheet('background-color:'+self.colors[i].name()+';')
-                    #which.setStyleSheet('')
+                    which = self.poz[self.prevLs[i]]
+                    which.setStyleSheet('background-color:' + self.colors[self.prevLs[i]].name() + ';')
 
-                if (x==0 or x==7) and self.prevName[1]=='P':
-                    print(self.openSelection( x, y, label))
+                if (x == 0 or x == 7) and self.prevName[1] == 'P':
+                    print(self.openSelection(x, y, label))
 
-                self.zold=False
-                self.turn=self.inverse[self.turn]
+                self.zold = False
+                self.turn = self.inverse[self.turn]
+
                 self.play_timer.switch_to(self.turn)
-                # if self.turn=='W':
-                #     self.turn='B'
-                # elif self.turn=='B':
-                #     self.turn='W'
+
 
         elif self.zold and n not in self.prevLs:
-            self.zold=False
+            self.zold = False
             for i in range(len(self.prevLs)):
-                which=self.poz[self.prevLs[i]]
-                which.setStyleSheet('background-color:'+self.colors[self.prevLs[i]].name()+';')
+                which = self.poz[self.prevLs[i]]
+                which.setStyleSheet('background-color:' + self.colors[self.prevLs[i]].name() + ';')
 
-        # if self.matt==True:
 
     def openSelection(self, x, y, label):
-        self.anotherWindow=QtWidgets.QMainWindow()
-        self.ui3=Ui_Selection()
+        self.anotherWindow = QtWidgets.QMainWindow()
+        self.ui3 = Ui_Selection()
         self.ui3.setupUi(self.anotherWindow)
         # msg = QMessageBox()
         # msg.setWindowTitle("")
         # msg.setText("You can replace yor pawn with one of these pieces.")
         # msg.setIcon(QMessageBox.Information)
         # msg.setStandardButtons(QMessageBox.Ok)
-        self.ui3.listWidget.currentItemChanged.connect(partial(self.replace,x,y,label))
+        self.ui3.selectbutton.clicked.connect(partial(self.replace, x, y, label))
         self.ui3.selectbutton.clicked.connect(self.anotherWindow.close)
 
+        has_item = False
         for i in self.outofPlay:
-            if self.outofPlay == []:
-                pass
-            else:
-                item = QListWidgetItem()
+            item = QListWidgetItem()
 
-                if i[0] != self.turn:
-                    continue
-                if i[1] == 'Q':
-                    item.setText('Queen ♛')
-                if i[1] == 'R':
-                    item.setText('Rook ♜')
-                if i[1] == 'K':
-                    item.setText('Knight ♞')
-                if i[1] == 'B':
-                    item.setText('Bishop ♝')
-                self.ui3.listWidget.addItem(item)
-                self.ui3.listWidget.setCurrentItem(item)
+            if i[0] != self.turn:
+                continue
+            if i[1] == 'Q':
+                item.setText('Queen ♛')
+                has_item = True
+            if i[1] == 'R':
+                item.setText('Rook ♜')
+                has_item = True
+            if i[1] == 'K':
+                item.setText('Knight ♞')
+                has_item = True
+            if i[1] == 'B':
+                item.setText('Bishop ♝')
+                has_item = True
+            self.ui3.listWidget.addItem(item)
+            self.ui3.listWidget.setCurrentItem(item)
 
-        self.anotherWindow.show()
+        if has_item:
+            self.anotherWindow.show()
 
-    # <>{}[]
+
 
     def replace(self, x, y, label):
-        print(self.outofPlay)
         curr = self.ui3.listWidget.currentItem()
         self.selected = self.inverse[self.turn] + curr.text()[0]
         label.setPixmap(QtGui.QPixmap(self.pic[self.selected]))
         board[x][y] = self.selected
 
         self.outofPlay.remove(self.selected)
-        print(self.outofPlay)
+        print("self.outofPlay: ", self.outofPlay)
+
 
     def searchChain(self, x, y):
         k = King(self.inverse[self.turn] + 'King')
@@ -439,6 +497,7 @@ class Setting:
                 self.newWindow.close()
             msg.exec()
 
+
     def searchall(self):
         self.allW = []
         self.allB = []
@@ -452,6 +511,7 @@ class Setting:
                     for k in canMove(i, j):
                         if k not in self.allB:
                             self.allB.append(k)
+
 
 def canMove(x, y):
     name = getname(x, y)
@@ -477,6 +537,7 @@ def canMove(x, y):
             return name.canMove(x, y)
 
     # def mattAppend()
+
 
 app = QtWidgets.QApplication(sys.argv)
 cntrl = Setting()
