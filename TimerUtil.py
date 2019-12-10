@@ -1,30 +1,15 @@
 import time
 
 class timer_(object):
-  """
-  The ChessTimer class provides a timer which measures elapsed time on a
-  given task.  There is no limit to the number of tasks, but only one task
-  accumulates time at any given moment.
-  All times are in floating-point seconds.
-  Requires Python ≥ 3.3 because it uses time.monotonic().
-  """
-
   def __init__(self):
-
-    # If the current task is anything other than none, then
-    # self._timers[self._current_task] must be defined.
     self._current_task = None
     self._timers = {}
 
-    # This is only updated when there is a change in state, and only method
-    # _elapsed is allowed to update it.
-    # To get the elapsed time of the current task, use elapsed_time() below.
     self._reftime = time.monotonic()
 
 
   # Elapsed time since the last reset.
-  # Pass reset=True to reset elapsed time counter.
-  # This is the only method that's allowed to touch self._reftime.
+  # Pass reset=True to reset elapsed time counter. nekünk false kell, A és B váltakozásánál az idő megáll.
   def _elapsed(self, reset=False):
     oldreftime = self._reftime
     newreftime = time.monotonic()
@@ -34,13 +19,13 @@ class timer_(object):
     return newreftime - oldreftime
 
 
-  # Get current task
+  # Lekérdezi a jelenlegi task-ot
   def current_task(self):
     return self._current_task
 
 
-  # Switch tasks
-  # returns the elapsed time from the current task (before the switch)
+  # Task-ot vált
+  # returns the elapsed time from the current task (b4 switch)
   def switch_to(self, newtask):
     task = self._current_task
     elapsed = self._elapsed(True)

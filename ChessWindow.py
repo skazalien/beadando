@@ -16,15 +16,18 @@ class Ui_Gameview(object):
         MainWindow.resize(1177, 1008)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.gameoverbutton = QtWidgets.QPushButton(self.centralwidget)
-        self.gameoverbutton.setGeometry(QtCore.QRect(0, 440, 141, 71))
-        self.gameoverbutton.setObjectName("gameoverbutton")
         self.blackTimer = QtWidgets.QLabel(self.centralwidget)
         self.blackTimer.setGeometry(QtCore.QRect(30, 560, 101, 51))
         self.blackTimer.setObjectName("blackTimer")
         self.whiteTimer = QtWidgets.QLabel(self.centralwidget)
         self.whiteTimer.setGeometry(QtCore.QRect(30, 360, 101, 51))
         self.whiteTimer.setObjectName("whiteTimer")
+        self.player_white = QtWidgets.QLabel(self.centralwidget)
+        self.player_white.setGeometry(QtCore.QRect(30, 160, 101, 51))
+        self.player_white.setObjectName("player_white")
+        self.player_black = QtWidgets.QLabel(self.centralwidget)
+        self.player_black.setGeometry(QtCore.QRect(30, 760, 101, 51))
+        self.player_black.setObjectName("player_black")
         self.label01 = ExtendedQLabel(self.centralwidget)
         self.label01.setGeometry(QtCore.QRect(270, 10, 120, 120))
         self.label01.setStyleSheet("background-color: rgb(0, 0, 0);")
@@ -514,9 +517,10 @@ class Ui_Gameview(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.gameoverbutton.setText(_translate("MainWindow", "Game Over"))
         self.blackTimer.setText(_translate("MainWindow", "TextLabel"))
         self.whiteTimer.setText(_translate("MainWindow", "TextLabel"))
+        self.player_white.setText(_translate("MainWindow", "Player 1"))
+        self.player_black.setText(_translate("MainWindow", "Player 2"))
 
 
 if __name__ == "__main__":

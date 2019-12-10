@@ -23,7 +23,7 @@ class Setting:
         self.ui.setupUi(self.MainWindow)
         self.ui.player_add_button.clicked.connect(self.addPlayer)
         self.h = 0
-        self.time = "10"
+        self.time = "1"
         self.ui.timebox.currentTextChanged.connect(self.getTime)
 
         # self.pic={'00':'WR', '01':'WK', '02':'WB', '03':'WKing', '04':'WQ', '05':'WB' , '06':'WK' , '07':'WR' , '10':'WP' , '11':'WP' , '12':'WP' , '13':'WP' , '14': 'WP', '15': 'WP', '16':'WP' , '17':'WP' , '20':'', '21': '', '22': '', '23': '', '24': '', '25': '', '26': '', '27': '',
@@ -47,10 +47,6 @@ class Setting:
         self.inverse = {'W': 'B', 'B': 'W'}
         self.allW=[]
         self.allB=[]
-
-        self.play_timer = TimerUtil.timer_()
-        self.play_timer.switch_to('B')
-        self.play_timer.switch_to(self.turn)
 
         self.ui.playbutton.clicked.connect(self.openChessWindow)
         self.MainWindow.show()
@@ -87,9 +83,11 @@ class Setting:
         self.ui2=Ui_Gameview()
         self.ui2.setupUi(self.newWindow)
         # self.ui2.whiteTimer.setText(self.time+':00')
-        self.ui2.whiteTimer.setText(self.getFormattedTime(self.play_timer.all_elapsed_time(reset=False)['W']))
+        self.ui2.player_white.setText(self.ui.player1.text())
+        # self.ui2.whiteTimer.setText(self.getFormattedTime(self.play_timer.all_elapsed_time(reset=False)['W']))
         # self.ui2.blackTimer.setText(self.time+':00')
-        self.ui2.blackTimer.setText(self.getFormattedTime(self.play_timer.all_elapsed_time(reset=False)['B']))
+        self.ui2.player_black.setText(self.ui.player2.text())
+        # self.ui2.blackTimer.setText(self.getFormattedTime(self.play_timer.all_elapsed_time(reset=False)['B']))
 
 
 
@@ -103,6 +101,8 @@ class Setting:
         '70':self.ui2.label70, '71':self.ui2.label71, '72':self.ui2.label72, '73':self.ui2.label73, '74':self.ui2.label74, '75':self.ui2.label75, '76':self.ui2.label76, '77':self.ui2.label77}
 
         #self.ui2.gameoverbutton.clicked.connect(self.openWinnerWindow)
+
+
 ###############################################################
 
         self.ui2.label00.clicked.connect(partial(self.showMoves,'00',self.ui2.label00))
@@ -170,12 +170,14 @@ class Setting:
         self.ui2.label76.clicked.connect(partial(self.showMoves,'76',self.ui2.label76))
         self.ui2.label77.clicked.connect(partial(self.showMoves,'77',self.ui2.label77))
 
-
-
-
+        self.play_timer = TimerUtil.timer_()
+        self.play_timer.switch_to('B')
+        self.play_timer.switch_to(self.turn)
 ###############################################################
         self.newWindow.show()
+
         threading._start_new_thread(self.timer, ())
+
 
     # <>{}[]
 
@@ -188,7 +190,7 @@ class Setting:
             if self.play_timer.all_elapsed_time(reset=False)['W'] >= float(self.time)*60:
                 tmp = False
                 self.ui2.whiteTimer.setText("00:00:00")
-                resp = ctypes.windll.user32.MessageBoxW(0, self.ui.player1.text() + " has won!", "GAME OVER", 1)
+                resp = ctypes.windll.user32.MessageBoxW(0, self.ui.player2.text() + " has won!", "GAME OVER", 1)
                 if resp:
                     self.newWindow.close()
 
@@ -197,7 +199,7 @@ class Setting:
             if self.play_timer.all_elapsed_time(reset=False)['B'] >= float(self.time) * 60:
                 tmp = False
                 self.ui2.blackTimer.setText("00:00:00")
-                resp = ctypes.windll.user32.MessageBoxW(0, self.ui.player2.text() + " has won!", "GAME OVER", 1)
+                resp = ctypes.windll.user32.MessageBoxW(0, self.ui.player1.text() + " has won!", "GAME OVER", 1)
                 if resp:
                     self.newWindow.close()
 
@@ -298,8 +300,6 @@ class Setting:
 
         # if self.matt==True:
 
-
-
     def openSelection(self, x, y, label):
         self.anotherWindow=QtWidgets.QMainWindow()
         self.ui3=Ui_Selection()
@@ -312,26 +312,28 @@ class Setting:
         self.ui3.listWidget.currentItemChanged.connect(partial(self.replace,x,y,label))
         self.ui3.selectbutton.clicked.connect(self.anotherWindow.close)
 
-        if self.outofPlay == []:
-            pass
-
         for i in self.outofPlay:
-            item = QListWidgetItem()
+            if self.outofPlay == []:
+                pass
+            else:
+                item = QListWidgetItem()
 
-            if i[0] != self.turn:
-                continue
-            if i[1] == 'Q':
-                item.setText('Queen ♛')
-            if i[1] == 'R':
-                item.setText('Rook ♜')
-            if i[1] == 'K':
-                item.setText('Knight ♞')
-            if i[1] == 'B':
-                item.setText('Bishop ♝')
-            self.ui3.listWidget.addItem(item)
-            self.ui3.listWidget.setCurrentItem(item)
+                if i[0] != self.turn:
+                    continue
+                if i[1] == 'Q':
+                    item.setText('Queen ♛')
+                if i[1] == 'R':
+                    item.setText('Rook ♜')
+                if i[1] == 'K':
+                    item.setText('Knight ♞')
+                if i[1] == 'B':
+                    item.setText('Bishop ♝')
+                self.ui3.listWidget.addItem(item)
+                self.ui3.listWidget.setCurrentItem(item)
 
         self.anotherWindow.show()
+
+    # <>{}[]
 
     def replace(self, x, y, label):
         print(self.outofPlay)
