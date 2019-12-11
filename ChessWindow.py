@@ -514,6 +514,8 @@ class Ui_Gameview(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+    # <>{}[]
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
@@ -521,7 +523,6 @@ class Ui_Gameview(object):
         self.whiteTimer.setText(_translate("MainWindow", "TextLabel"))
         self.player_white.setText(_translate("MainWindow", "Player 1"))
         self.player_black.setText(_translate("MainWindow", "Player 2"))
-
 
 if __name__ == "__main__":
     import sys

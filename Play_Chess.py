@@ -134,9 +134,9 @@ class Setting:
         self.ui2.setupUi(self.newWindow)
         # self.ui2.whiteTimer.setText(self.time+':00')
         self.ui2.player_white.setText(self.ui.player1.text())
+        self.ui2.player_black.setText(self.ui.player2.text())
         # self.ui2.whiteTimer.setText(self.getFormattedTime(self.play_timer.all_elapsed_time(reset=False)['W']))
         # self.ui2.blackTimer.setText(self.time+':00')
-        self.ui2.player_black.setText(self.ui.player2.text())
         # self.ui2.blackTimer.setText(self.getFormattedTime(self.play_timer.all_elapsed_time(reset=False)['B']))
 
 
